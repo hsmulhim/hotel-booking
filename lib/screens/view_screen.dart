@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hotel_booking/models/bookings_model.dart';
 import 'package:hotel_booking/models/hotels_model.dart';
 import 'package:hotel_booking/screens/home_screen.dart';
+import 'package:hotel_booking/screens/hotel_details_screen.dart';
 import 'package:hotel_booking/services/supabase.dart';
 import 'package:hotel_booking/utils/extensions.dart';
 
@@ -122,7 +123,9 @@ class _ViewScreenState extends State<ViewScreen> {
                         itemBuilder: (context, index) {
                           final Hotels hotel = snapshot.data[index];
                           return InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              HoteleDetilesScreen(hotel: hotel).push(context);
+                            },
                             child: Container(
                               child: Column(
                                 mainAxisAlignment:
