@@ -16,7 +16,11 @@ Future<List<Hotels>> getHotels() async {
 }
 
 Future<List<Bookings>> getBookings() async {
-  final bookings = await Supabase.instance.client.from('bookings').select();
+  print(Supabase.instance.client.auth.currentSession!.user.id);
+  final bookings = await Supabase.instance.client
+      .from('bookings')
+      .select()
+      .eq("user_id", Supabase.instance.client.auth.currentSession!.user.id);
   log(bookings.toString());
   bookingsModel.clear();
   for (var element in bookings) {
@@ -25,7 +29,13 @@ Future<List<Bookings>> getBookings() async {
   return bookingsModel;
 }
 
-Future insertBooking(Bookings book) async {
+Future insertBooking(Map book) async {
+  print(book);
   final supabase = Supabase.instance.client;
-  await supabase.from('bookings').insert(book.toJson());
+  await supabase.from('bookings').insert(book);
+}
+
+Future deleteCourse(String bookingId) async {
+  final supabase = Supabase.instance.client;
+  await supabase.from('bookings').delete().eq('id', bookingId);
 }

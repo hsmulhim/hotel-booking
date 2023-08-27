@@ -6,7 +6,7 @@ class Bookings {
   String? image;
   String? city;
   String? description;
-  int? roomPrice;
+  num? roomPrice;
   String? hotelId;
 
   Bookings(

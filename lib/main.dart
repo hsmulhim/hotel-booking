@@ -3,6 +3,7 @@ import 'package:hotel_booking/screens/explor_screen.dart';
 import 'package:hotel_booking/screens/home_screen.dart';
 import 'package:hotel_booking/screens/log_in_screen.dart';
 import 'package:hotel_booking/screens/view_screen.dart';
+import 'package:hotel_booking/screens/welcome_screen.dart';
 import 'package:hotel_booking/services/supabase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -21,7 +22,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     getHotels();
     return const MaterialApp(
-      home: LogInScreen(),
+      home: WelcomeScreen(),
     );
   }
 }

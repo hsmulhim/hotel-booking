@@ -108,18 +108,31 @@ class _HoteleDetilesScreenState extends State<HoteleDetilesScreen> {
                       text: "add booking",
                       onTap: () async {
                         final id = const Uuid().v4();
-                        final Bookings booking = Bookings(
-                            userId:
-                                Supabase.instance.client.auth.currentUser!.id,
-                            id: id,
-                            hotelName: widget.hotel.name,
-                            city: widget.hotel.city,
-                            image: widget.hotel.image,
-                            daysNumber: widget.hotel.roomsAvailable);
-                        bookingsModel.add(booking);
+                        // final Bookings booking = Bookings(
+                        //   userId: Supabase.instance.client.auth.currentUser!.id,
+                        //   id: id,
+                        //   hotelName: widget.hotel.name,
+                        //   city: widget.hotel.city,
+                        //   image: widget.hotel.image,
+                        //   daysNumber: widget.hotel.roomsAvailable,
+                        //   roomPrice: widget.hotel.roomPrice,
+                        // );
+                        //  bookingsModel.add(widget.booking!);
                         log('${bookingsModel.length}');
 
-                        await insertBooking(booking);
+                        Map bookingHotel = {
+                          "user_id":
+                              Supabase.instance.client.auth.currentUser!.id,
+                          "hotel_name": widget.hotel.name,
+                          "days_number": widget.hotel.roomsAvailable,
+                          "image": widget.hotel.image,
+                          "city": widget.hotel.city,
+                          "description": widget.hotel.description,
+                          "room_price": widget.hotel.roomPrice,
+                          "hotel_id": widget.hotel.hotelId,
+                        };
+
+                        await insertBooking(bookingHotel);
                         MyBookingsScreen().push(context);
                         if (context.mounted) {
                           Navigator.pop;

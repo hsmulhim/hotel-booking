@@ -5,6 +5,7 @@ import 'package:hotel_booking/models/bookings_model.dart';
 import 'package:hotel_booking/models/hotels_model.dart';
 import 'package:hotel_booking/screens/home_screen.dart';
 import 'package:hotel_booking/screens/hotel_details_screen.dart';
+import 'package:hotel_booking/screens/welcome_screen.dart';
 import 'package:hotel_booking/services/supabase.dart';
 import 'package:hotel_booking/utils/extensions.dart';
 
@@ -116,6 +117,15 @@ class CustomUpperStack extends StatelessWidget {
         Container(
           height: 245,
           color: Colors.blue,
+        ),
+        Positioned(
+          top: 30,
+          child: IconButton(
+              onPressed: () async {
+                await supabase.auth.signOut();
+                WelcomeScreen().push(context);
+              },
+              icon: Icon(Icons.login_outlined)),
         ),
         Positioned(
           top: 90,

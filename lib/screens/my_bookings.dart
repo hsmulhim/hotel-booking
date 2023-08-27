@@ -45,45 +45,52 @@ class _MyBookingsScreenState extends State<MyBookingsScreen> {
                 itemCount: bookingsModel.length,
                 itemBuilder: (context, index) {
                   final Bookings booking = snapshot.data[index];
-                  return Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Image.network(
-                              height: 200,
-                              width: 180,
-                              fit: BoxFit.cover,
-                              // "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
-                              '${booking.image}',
-                            ),
-                          ),
-                        ),
-                        Text(
-                          '${booking.hotelName}',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontStyle: FontStyle.italic,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              "${booking.roomPrice}\$ /night",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontStyle: FontStyle.italic,
+                  return InkWell(
+                    onTap: () {
+                      deleteCourse(booking.id!);
+                      setState(() {});
+                    },
+                    child: Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Image.network(
+                                height: 200,
+                                width: 180,
+                                fit: BoxFit.cover,
+                                // "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
+                                '${booking.image}',
                               ),
                             ),
-                          ],
-                        ),
-                      ],
+                          ),
+                          Text(
+                            '${booking.hotelName}',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontStyle: FontStyle.italic,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                "${booking.roomPrice}\$ /night " ??
+                                    " 0\$ /night",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontStyle: FontStyle.italic,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 }),
