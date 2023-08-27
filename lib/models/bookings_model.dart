@@ -1,6 +1,5 @@
 class Bookings {
   String? id;
-  String? createdAt;
   String? userId;
   String? hotelName;
   int? daysNumber;
@@ -12,7 +11,6 @@ class Bookings {
 
   Bookings(
       {this.id,
-      this.createdAt,
       this.userId,
       this.hotelName,
       this.daysNumber,
@@ -24,7 +22,6 @@ class Bookings {
 
   Bookings.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    createdAt = json['created_at'];
     userId = json['user_id'];
     hotelName = json['hotel_name'];
     daysNumber = json['days_number'];
@@ -38,7 +35,6 @@ class Bookings {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['created_at'] = this.createdAt;
     data['user_id'] = this.userId;
     data['hotel_name'] = this.hotelName;
     data['days_number'] = this.daysNumber;

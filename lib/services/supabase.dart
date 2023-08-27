@@ -24,3 +24,8 @@ Future<List<Bookings>> getBookings() async {
   }
   return bookingsModel;
 }
+
+Future insertBooking(Bookings book) async {
+  final supabase = Supabase.instance.client;
+  await supabase.from('bookings').insert(book.toJson());
+}

@@ -21,55 +21,14 @@ class ViewScreen extends StatefulWidget {
 
 class _ViewScreenState extends State<ViewScreen> {
   late Hotels hotel;
-  late Bookings booking;
+
   @override
   Widget build(BuildContext context) {
     final supabase = Supabase.instance.client;
     return Scaffold(
       body: Column(
         children: [
-          Stack(
-            children: [
-              Container(
-                height: 245,
-                color: Colors.blue,
-              ),
-              Positioned(
-                top: 90,
-                left: 30,
-                child: Text(supabase.auth.currentUser!.email ?? "",
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold)),
-              ),
-              Positioned(
-                  top: 8, left: 180, child: Image.asset('assets/images/1.png')),
-              Padding(
-                padding: const EdgeInsets.only(top: 185, left: 20, right: 20),
-                child: Positioned(
-                  top: 185,
-                  left: 20,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 2,
-                        vertical: 2,
-                      ),
-                      hintText: 'Where do you want to stay ',
-                      filled: true,
-                      fillColor: Colors.white,
-                      prefixIcon: const Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: const BorderSide(),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          CustomUpperStack(supabase: supabase),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child:
@@ -126,54 +85,125 @@ class _ViewScreenState extends State<ViewScreen> {
                             onTap: () {
                               HoteleDetilesScreen(hotel: hotel).push(context);
                             },
-                            child: Container(
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(20),
-                                      child: Image.network(
-                                        height: 200,
-                                        width: 180,
-                                        fit: BoxFit.cover,
-                                        // "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
-                                        '${hotel.image}',
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    '${hotel.name}',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontStyle: FontStyle.italic,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "${hotel.roomPrice}\$ /night",
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontStyle: FontStyle.italic,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
+                            child: CustomViewContainer(hotel: hotel),
                           );
                         }),
                   ),
                 ],
               );
             }),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// custom upper stack
+
+class CustomUpperStack extends StatelessWidget {
+  const CustomUpperStack({
+    super.key,
+    required this.supabase,
+  });
+
+  final SupabaseClient supabase;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          height: 245,
+          color: Colors.blue,
+        ),
+        Positioned(
+          top: 90,
+          left: 30,
+          child: Text(supabase.auth.currentUser!.email ?? "",
+              style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold)),
+        ),
+        Positioned(
+            top: 8, left: 180, child: Image.asset('assets/images/1.png')),
+        Padding(
+          padding: const EdgeInsets.only(top: 185, left: 20, right: 20),
+          child: Positioned(
+            top: 185,
+            left: 20,
+            child: TextField(
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 2,
+                  vertical: 2,
+                ),
+                hintText: 'Where do you want to stay ',
+                filled: true,
+                fillColor: Colors.white,
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: const BorderSide(),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// custom container
+class CustomViewContainer extends StatelessWidget {
+  const CustomViewContainer({
+    super.key,
+    required this.hotel,
+  });
+
+  final Hotels hotel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.network(
+                height: 200,
+                width: 180,
+                fit: BoxFit.cover,
+                // "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
+                '${hotel.image}',
+              ),
+            ),
+          ),
+          Text(
+            '${hotel.name}',
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontSize: 18,
+              fontStyle: FontStyle.italic,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          Row(
+            children: [
+              Text(
+                "${hotel.roomPrice}\$ /night",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+            ],
           ),
         ],
       ),
