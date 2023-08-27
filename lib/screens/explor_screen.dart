@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hotel_booking/screens/welcome_screen.dart';
+import 'package:hotel_booking/utils/extensions.dart';
 
 import 'package:hotel_booking/widgets/custom_button.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({super.key});
@@ -12,6 +15,7 @@ class ExploreScreen extends StatefulWidget {
 class _ExploreScreenState extends State<ExploreScreen> {
   @override
   Widget build(BuildContext context) {
+    final supabase = Supabase.instance.client;
     return Scaffold(
         backgroundColor: Colors.blue,
         body: Stack(children: [
@@ -54,11 +58,22 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       // borderSide: const BorderSide(),
                     ))),
           ),
+          // Padding(
+          //   padding: const EdgeInsets.only(top: 290, left: 15),
+          //   child: ElevatedButton(
+          //       style: buttonPrimary, onPressed: () {}, child: Text("Search")),
+          // ),
+
           Padding(
             padding: const EdgeInsets.only(top: 290, left: 15),
             child: ElevatedButton(
-                style: buttonPrimary, onPressed: () {}, child: Text("Search")),
-          )
+                style: buttonPrimary,
+                onPressed: () async {
+                  await supabase.auth.signOut();
+                  WelcomeScreen().push(context);
+                },
+                child: Text("logout")),
+          ),
         ]));
   }
 }

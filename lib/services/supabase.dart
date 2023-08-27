@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:hotel_booking/models/bookings_model.dart';
 import 'package:hotel_booking/models/hotels_model.dart';
 import 'package:hotel_booking/screens/home_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -12,4 +13,14 @@ Future<List<Hotels>> getHotels() async {
     hotelsModel.add(Hotels.fromJson(element));
   }
   return hotelsModel;
+}
+
+Future<List<Bookings>> getBookings() async {
+  final bookings = await Supabase.instance.client.from('bookings').select();
+  log(bookings.toString());
+  bookingsModel.clear();
+  for (var element in bookings) {
+    bookingsModel.add(Bookings.fromJson(element));
+  }
+  return bookingsModel;
 }

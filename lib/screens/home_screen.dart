@@ -1,10 +1,12 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:hotel_booking/models/bookings_model.dart';
 import 'package:hotel_booking/models/hotels_model.dart';
 import 'package:hotel_booking/screens/log_in_screen.dart';
 import 'package:hotel_booking/services/supabase.dart';
 
 List<Hotels> hotelsModel = [];
+List<Bookings> bookingsModel = [];
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

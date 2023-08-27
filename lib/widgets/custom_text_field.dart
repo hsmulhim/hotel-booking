@@ -8,11 +8,13 @@ class CoustomTextField extends StatelessWidget {
     required this.Hinttext,
     required this.icon,
     this.isObscure,
+    required this.controller,
   });
   final String text;
   final String Hinttext;
   final Icon icon;
   final bool? isObscure;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class CoustomTextField extends StatelessWidget {
             border: OutlineInputBorder(),
           ),
           obscureText: isObscure! ? true : false,
+          controller: controller,
         ),
       ],
     );

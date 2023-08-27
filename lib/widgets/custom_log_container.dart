@@ -1,15 +1,39 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:hotel_booking/screens/explor_screen.dart';
+import 'package:hotel_booking/screens/sign_up_screen.dart';
+import 'package:hotel_booking/screens/view_screen.dart';
+import 'package:hotel_booking/utils/extensions.dart';
 import 'package:hotel_booking/widgets/custom_signin_button.dart';
 import 'package:hotel_booking/widgets/custom_text.dart';
 import 'package:hotel_booking/widgets/custom_text_field.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-class CustomlogContainer extends StatelessWidget {
+class CustomlogContainer extends StatefulWidget {
   const CustomlogContainer({
     super.key,
   });
 
   @override
+  State<CustomlogContainer> createState() => _CustomlogContainerState();
+}
+
+class _CustomlogContainerState extends State<CustomlogContainer> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final supabase = Supabase.instance.client;
+    log('Token: ${supabase.auth.currentSession?.accessToken}');
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.7,
@@ -32,18 +56,41 @@ class CustomlogContainer extends StatelessWidget {
               icon: Icon(Icons.login),
               text: 'Email',
               isObscure: false,
+              controller: emailController,
             ),
             CoustomTextField(
               Hinttext: 'password',
               icon: Icon(Icons.wifi_password_outlined),
               text: 'password',
               isObscure: true,
+              controller: passwordController,
             ),
             CustomLogInButton(
-              buttonColor: Colors.blue,
-              text: 'Sign In',
-              textColor: Colors.white,
-            ),
+                buttonColor: Colors.blue,
+                text: 'Sign In',
+                textColor: Colors.white,
+                onTap: () async {
+                  if ((emailController.text.isNotEmpty &&
+                          emailController.text.isValidEmail) &&
+                      passwordController.text.isNotEmpty) {
+                    // Signing in ...
+                    await supabase.auth.signInWithPassword(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    );
+
+                    //   Popping the screen after signing in
+                    if (context.mounted) {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ViewScreen()),
+                          (route) {
+                        return false;
+                      });
+                    }
+                  }
+                }),
             CustomTextWidget(),
             CustomLogInButton(
               buttonColor: Colors.white,

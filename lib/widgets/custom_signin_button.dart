@@ -6,18 +6,17 @@ class CustomLogInButton extends StatelessWidget {
     required this.buttonColor,
     required this.textColor,
     required this.text,
+    this.onTap,
   });
 
   final Color buttonColor;
   final Color textColor;
   final String text;
-
+  final Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        // do smth
-      },
+      onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(8),
         height: MediaQuery.of(context).size.height * 0.06,
